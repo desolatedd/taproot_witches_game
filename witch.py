@@ -1,8 +1,16 @@
 import pygame
 import random
+import os
 
 # Initialize Pygame
 pygame.init()
+
+# Get the base directory of the script
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Define a helper function to construct paths relative to the script
+def resource_path(relative_path):
+    return os.path.join(BASE_DIR, relative_path)
 
 # Screen dimensions
 screen_info = pygame.display.Info()
@@ -16,12 +24,12 @@ screen = pygame.display.set_mode((screen_width, screen_height), pygame.RESIZABLE
 pygame.display.set_caption("Taproot Witches Shooter")
 clock = pygame.time.Clock()
 
-# Load Images
-witch_image = pygame.image.load('/Users/root1/Downloads/Group_77 /assets/r.png').convert_alpha()  # Witch image
-spell_image = pygame.image.load('/Users/root1/Downloads/Group_77 /assets/pngegg.png').convert_alpha()  # Spell (fireball) image
-enemy_image = pygame.image.load('/Users/root1/Downloads/Group_77 /assets/bitcoin-cryptocurrency-in-pixel-art-style-illustration-free-png.webp').convert_alpha()  # Enemy (Eye) image
-background_image = pygame.image.load('/Users/root1/Downloads/Group_77 /assets/539c483ff16585f1014ce8bff226bc56.png').convert_alpha()  # Background image
-taproot_witches_image = pygame.image.load('/Users/root1/Downloads/Group_77 /assets/tap_witch.png').convert_alpha()  # Taproot Witches text image
+# Load Images using relative paths
+witch_image = pygame.image.load(resource_path('assets/r.png')).convert_alpha()  # Witch image
+spell_image = pygame.image.load(resource_path('assets/pngegg.png')).convert_alpha()  # Spell (fireball) image
+enemy_image = pygame.image.load(resource_path('assets/bitcoin-cryptocurrency-in-pixel-art-style-illustration-free-png.webp')).convert_alpha()  # Enemy (Eye) image
+background_image = pygame.image.load(resource_path('assets/539c483ff16585f1014ce8bff226bc56.png')).convert_alpha()  # Background image
+taproot_witches_image = pygame.image.load(resource_path('assets/tap_witch.png')).convert_alpha()  # Taproot Witches text image
 
 # Scale the background to fit the screen size
 background_image = pygame.transform.scale(background_image, (screen_width, screen_height))
@@ -102,7 +110,6 @@ class Enemy(pygame.sprite.Sprite):
     def update(self):
         self.rect.x -= self.speed
         if self.rect.x < 0:  # Enemy reached the left side of the screen
-            # Trigger game over
             global game_over
             game_over = True
             self.kill()
@@ -166,8 +173,8 @@ def game():
         for spell in spells:
             hit_list = pygame.sprite.spritecollide(spell, enemies, True)
             if hit_list:
-                spell.kill()  # Remove spell after hitting an enemy
-                score += 1  # Increase score when an enemy (eye) is hit
+                spell.kill()
+                score += 1
 
         # Check for collisions between the witch and enemies
         if pygame.sprite.spritecollide(witch, enemies, False):
@@ -182,7 +189,7 @@ def game():
         enemies.draw(screen)
 
         # Display the score
-        pixel_font = pygame.font.Font('/Users/root1/Downloads/Pixelify_Sans/static/PixelifySans-Regular.ttf', 30)
+        pixel_font = pygame.font.Font(resource_path('assets/PixelifySans-Regular.ttf'), 30)
         score_text = pixel_font.render(f"Score: {score}", True, (255, 255, 255))
         score_rect = score_text.get_rect(centerx=screen_width // 2, top=10)  # Adjust 'top' as needed for vertical padding
 
@@ -190,7 +197,7 @@ def game():
         screen.blit(score_text, score_rect)
 
         # Display "Taproot Witches" text below the score
-        taproot_font = pygame.font.Font('/Users/root1/Downloads/Pixelify_Sans/static/PixelifySans-Regular.ttf', 60)
+        taproot_font = pygame.font.Font(resource_path('assets/PixelifySans-Regular.ttf'), 60)
         taproot_text = taproot_font.render("Taproot Witches", True, (255, 255, 255))
         taproot_rect = taproot_text.get_rect(centerx=screen_width // 2, top=score_rect.bottom + 10)
 
@@ -201,11 +208,11 @@ def game():
         clock.tick(30)
 
     # End the game and display game over screen
-    pixel_font = pygame.font.Font('/Users/root1/Downloads/Pixelify_Sans/static/PixelifySans-Regular.ttf', 50)
+    pixel_font = pygame.font.Font(resource_path('assets/PixelifySans-Regular.ttf'), 50)
     display_game_over(screen, pixel_font)
 
 # Display start screen and wait for player to press 'S' to start the game
-pixel_font = pygame.font.Font('/Users/root1/Downloads/Pixelify_Sans/static/PixelifySans-Regular.ttf', 60)
+pixel_font = pygame.font.Font(resource_path('assets/PixelifySans-Regular.ttf'), 60)
 display_start_screen(screen, pixel_font)
 
 # Start the game after 'S' is pressed
