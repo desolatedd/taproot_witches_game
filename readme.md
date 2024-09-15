@@ -64,7 +64,3 @@ The game will start with a title screen. Press the **S** key to begin the game.
 ## Author
 
 - Made by CryptoDepressi for the Taproot Witches project.
-
----
-
-This `README.md` file gives users the essential information to get the game running, including installation steps and gameplay instructions. You can tweak or add more details as necessary!
